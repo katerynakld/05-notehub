@@ -50,7 +50,7 @@ function App() {
         </button>
       </header>
 
-      {isLoading && <p>Loading...</p>}
+      {isLoading && <Loader />}
       {isError && <p>Error!</p>}
       {isSuccess && <NoteList notes={data.notes} />}
 
