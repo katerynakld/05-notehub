@@ -8,6 +8,7 @@ import SearchBox from "../SearchBox/SearchBox";
 import { useDebouncedCallback } from "use-debounce";
 import Modal from "../Modal/Modal";
 import Loader from "../Loader/Loader";
+import NoteForm from "../NoteForm/NoteForm";
 
 function App() {
   const [query, setQuery] = useState("");
@@ -29,9 +30,9 @@ function App() {
     debounced(text);
   };
 
-  const { data, isFetching } = useQuery({
+  const { data, isLoading, isError, isSuccess } = useQuery({
     queryKey: ["notes", debouncedQuery, page],
-    queryFn: () => fetchNotes(page, query),
+    queryFn: () => fetchNotes(page, debouncedQuery),
     placeholderData: keepPreviousData,
   });
 
@@ -41,16 +42,23 @@ function App() {
     <div className={css.app}>
       <header className={css.toolbar}>
         <SearchBox value={query} onChange={handleSearch} />
-        <Pagination totalPages={totalPages} page={page} setPage={setPage} />
+        {totalPages > 1 && (
+          <Pagination totalPages={totalPages} page={page} setPage={setPage} />
+        )}
         <button onClick={openModal} className={css.button}>
           Create note +
         </button>
       </header>
-      {isModalOpen && <Modal onClose={closeModal} />}
-      <div style={{ position: "relative" }}>
-        {data && data.notes.length > 0 && <NoteList notes={data.notes} />}
-        {isFetching && <Loader />}
-      </div>
+
+      {isLoading && <p>Loading...</p>}
+      {isError && <p>Error!</p>}
+      {isSuccess && <NoteList notes={data.notes} />}
+
+      {isModalOpen && (
+        <Modal onClose={closeModal}>
+          <NoteForm onClose={closeModal} />
+        </Modal>
+      )}
     </div>
   );
 }

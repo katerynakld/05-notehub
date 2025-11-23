@@ -77,7 +77,7 @@ function NoteForm({ onClose }: NoteFormProps) {
             rows={8}
             className={css.textarea}
           />
-          <ErrorMessage name="content" className={css.error} />
+          <ErrorMessage name="content" className={css.error} component="div" />
         </div>
 
         <div className={css.formGroup}>
@@ -89,7 +89,7 @@ function NoteForm({ onClose }: NoteFormProps) {
             <option value="Meeting">Meeting</option>
             <option value="Shopping">Shopping</option>
           </Field>
-          <ErrorMessage name="tag" className={css.error} />
+          <ErrorMessage name="tag" className={css.error} component="div" />
         </div>
 
         <div className={css.actions}>
