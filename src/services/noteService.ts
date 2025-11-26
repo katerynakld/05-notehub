@@ -6,9 +6,6 @@ const NOTEHUB_TOKEN = import.meta.env.VITE_NOTEHUB_TOKEN;
 
 export interface NotesResponse {
   notes: Note[];
-  page: number;
-  perPage: number;
-  total: number;
   totalPages: number;
 }
 
@@ -19,8 +16,8 @@ export interface NewNoteData {
 }
 
 export async function fetchNotes(
-  page: number,
-  search: string
+  page?: number,
+  search?: string
 ): Promise<NotesResponse> {
   const response = await axios.get<NotesResponse>(API_URL, {
     params: {
@@ -53,6 +50,5 @@ export async function deleteNote(noteID: string) {
       },
     }
   );
-  console.log(deletedNote.data);
   return deletedNote.data;
 }
